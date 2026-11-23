@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 20th Birthday, My Palangga! 💕</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        roseGold: '#B76E79',
+                        softPink: '#FFF0F5',
+                        deepRose: '#E85A71',
+                        pastelPeach: '#FFDAB9',
+                        warmCream: '#FFFDF9'
+                    },
+                    fontFamily: {
+                        serif: ['Dancing Script', 'cursive'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Floating background hearts animation */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            list-style: none;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(232, 90, 113, 0.2);
+            bottom: -150px;
+            animation: float 25s infinite linear;
+            border-radius: 50%;
+        }
+
+        .floating-heart::before,
+        .floating-heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(232, 90, 113, 0.25);
+            border-radius: 50%;
+        }
+        .floating-heart::before {
+            top: -50%;
+            left: 0;
+        }
+        .floating-heart::after {
+            left: -50%;
+            top: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(45deg) scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Memory card 3D flip effect */
+        .perspective {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Candle flame pulse animation */
+        @keyframes flameGlow {
+            0%, 100% { transform: scale(1) rotate(-2deg); filter: drop-shadow(0 0 8px #ff9d00); }
+            50% { transform: scale(1.15) rotate(2deg); filter: drop-shadow(0 0 14px #ff5900); }
+        }
+        .flame-active {
+            animation: flameGlow 1.2s infinite ease-in-out;
+        }
+
+        /* Soft pulsing glow for main CTA button */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(232, 90, 113, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(232, 90, 113, 0.8); }
+        }
+        .pulse-glow {
+            animation: pulseGlow 2.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-softPink via-warmCream to-pastelPeach min-h-screen font-sans text-gray-800 relative overflow-x-hidden pb-12">
+
+    <!-- Floating Background Hearts -->
+    <ul class="heart-bg" id="heartContainer"></ul>
+
+    <!-- Main Container -->
+    <main class="max-w-md md:max-w-xl mx-auto px-4 pt-6 relative z-10 space-y-8">
+
+        <!-- Hero Section -->
+        <header class="text-center bg-white/70 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-xl border border-white/80 relative overflow-hidden">
+            <div class="inline-block px-4 py-1.5 bg-rose-100 text-deepRose rounded-full text-xs font-semibold uppercase tracking-wider mb-3">
+                ✨ Special Day • Nov 24 ✨
+            </div>
+            
+            <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl text-deepRose font-bold leading-tight mb-2">
+                Happy 20th Birthday, <br/>
+                <span class="text-roseGold underline decoration-rose-300 decoration-wavy">My Palangga!</span> 💕
+            </h1>
+            
+            <p class="text-gray-600 text-sm sm:text-base mt-2 font-medium">
+                Welcome to your 20s, my favorite person in the whole world! 🌸
+            </p>
+
+            <!-- Quick Action Interactive Buttons -->
+            <div class="mt-6 flex flex-wrap gap-3 justify-center">
+                <button onclick="triggerConfettiBurst()" class="pulse-glow bg-gradient-to-r from-deepRose to-roseGold text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:opacity-90 active:scale-95 transition-all text-sm flex items-center gap-2">
+                    <span>🎉</span> Burst Confetti!
+                </button>
+                <button onclick="scrollToCake()" class="bg-white text-deepRose border border-rose-200 font-semibold px-5 py-3 rounded-full shadow-md hover:bg-rose-50 active:scale-95 transition-all text-sm flex items-center gap-2">
+                    <span>🎂</span> Make a Wish
+                </button>
+            </div>
+        </header>
+
+        <!-- Heartfelt Birthday Letter Section -->
+        <section class="bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-lg border border-pink-100/60 relative">
+            <div class="absolute -top-4 -right-2 text-3xl">💌</div>
+            <h2 class="font-serif text-3xl text-deepRose font-bold mb-4 flex items-center gap-2">
+                To My Dearest Palangga,
+            </h2>
+            
+            <div class="space-y-4 text-gray-700 text-sm sm:text-base leading-relaxed">
+                <p>
+                    Today marks a truly beautiful milestone—you are officially <strong>20 years old!</strong> 🎉 Entering a whole new decade is big, but I know this chapter is going to be your brightest, happiest, and most incredible one yet.
+                </p>
+                <p>
+                    You bring so much warmth, laughter, and sweetness into my life everyday. Being able to celebrate your 20th birthday alongside you means everything to me, my <em>Palangga</em>. Your gentle heart and radiant smile make every moment we share feel extra special.
+                </p>
+                <p>
+                    As you step into your twenties today on <strong>November 24th</strong>, I wish you endless love, peace, boundless success, and all the happiness your heart can hold. Never stop chasing your dreams—I’ll always be right here cheering you on!
+                </p>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-rose-100 flex justify-between items-center text-xs sm:text-sm text-gray-500 font-medium">
+                <span>With all my love & devotion ❤️</span>
+                <span class="font-serif text-base text-deepRose font-bold">Forever Yours</span>
+            </div>
+        </section>
+
+        <!-- Interactive Memory & Sweet Notes Section (Flip Cards) -->
+        <section class="space-y-4">
+            <div class="text-center">
+                <h3 class="font-serif text-2xl text-deepRose font-bold">Tap to Reveal Sweet Messages 💌</h3>
+                <p class="text-xs text-gray-500">Touch each card to flip it over!</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Card 1 -->
+                <div class="flip-card perspective h-40 cursor-pointer" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-md border border-rose-200">
+                        <!-- Front -->
+                        <div class="flip-card-front absolute inset-0 bg-gradient-to-br from-rose-50 to-pink-100 rounded-2xl p-4 flex flex-col justify-center items-center text-center">
+                            <span class="text-3xl mb-2">🌟</span>
+                            <h4 class="font-bold text-deepRose text-base">Why You Are Special</h4>
+                            <p class="text-xs text-gray-500 mt-1">Tap to flip 👆</p>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back absolute inset-0 bg-gradient-to-br from-deepRose to-roseGold text-white rounded-2xl p-4 flex flex-col justify-center items-center text-center">
+                            <p class="text-xs sm:text-sm font-medium">
+                                "Your smile lights up my world. Every single day with you is a blessing, Palangga!"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flip-card perspective h-40 cursor-pointer" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-md border border-rose-200">
+                        <!-- Front -->
+                        <div class="flip-card-front absolute inset-0 bg-gradient-to-br from-rose-50 to-pink-100 rounded-2xl p-4 flex flex-col justify-center items-center text-center">
+                            <span class="text-3xl mb-2">🎈</span>
+                            <h4 class="font-bold text-deepRose text-base">My Promise To You</h4>
+                            <p class="text-xs text-gray-500 mt-1">Tap to flip 👆</p>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back absolute inset-0 bg-gradient-to-br from-deepRose to-roseGold text-white rounded-2xl p-4 flex flex-col justify-center items-center text-center">
+                            <p class="text-xs sm:text-sm font-medium">
+                                "To support you, treasure you, and celebrate every milestone with you as you take on your 20s!"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Birthday Cake & Wish Blowing Section -->
+        <section id="cakeSection" class="bg-white/80 backdrop-blur-md rounded-3xl p-6 text-center shadow-lg border border-pink-100 space-y-4">
+            <h3 class="font-serif text-3xl text-deepRose font-bold">Blow Out Your 20th Candles 🕯️</h3>
+            <p class="text-xs sm:text-sm text-gray-600">
+                Close your eyes, make a sweet birthday wish, and tap the candles to blow them out!
+            </p>
+
+            <!-- SVG Cake Illustration -->
+            <div class="relative py-4 flex justify-center items-center cursor-pointer select-none" onclick="blowOutCandles()">
+                <div class="relative flex flex-col items-center">
+                    
+                    <!-- Candles Header -->
+                    <div class="flex gap-4 mb-1 relative z-20">
+                        <!-- Candle 1 -->
+                        <div class="flex flex-col items-center">
+                            <div id="flame1" class="flame-active w-3 h-5 bg-gradient-to-t from-yellow-500 via-orange-400 to-yellow-100 rounded-full mb-0.5"></div>
+                            <div class="w-2.5 h-8 bg-gradient-to-b from-pink-300 to-rose-400 rounded-t-sm shadow-inner"></div>
+                        </div>
+                        <!-- Candle 2 -->
+                        <div class="flex flex-col items-center">
+                            <div id="flame2" class="flame-active w-3 h-5 bg-gradient-to-t from-yellow-500 via-orange-400 to-yellow-100 rounded-full mb-0.5"></div>
+                            <div class="w-2.5 h-8 bg-gradient-to-b from-pink-300 to-rose-400 rounded-t-sm shadow-inner"></div>
+                        </div>
+                    </div>
+
+                    <!-- Cake Layers -->
+                    <div class="w-44 h-12 bg-gradient-to-r from-rose-300 via-pink-200 to-rose-300 rounded-t-xl border-b-4 border-rose-400 relative overflow-hidden flex items-center justify-around px-2">
+                        <span class="text-xs font-bold text-deepRose tracking-widest">2 0 T H</span>
+                    </div>
+                    <div class="w-52 h-14 bg-gradient-to-r from-pink-400 via-rose-300 to-pink-400 rounded-b-2xl shadow-md flex items-center justify-center">
+                        <span class="font-serif text-white text-lg font-bold">Palangga 💖</span>
+                    </div>
+                    <!-- Plate -->
+                    <div class="w-60 h-3 bg-gray-200 rounded-full shadow-lg -mt-1"></div>
+                </div>
+            </div>
+
+            <!-- Candle Action Message -->
+            <div id="wishBox" class="min-h-[50px] flex items-center justify-center">
+                <button id="blowBtn" onclick="blowOutCandles()" class="bg-rose-100 text-deepRose font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-full border border-rose-300 hover:bg-rose-200 transition-all">
+                    ✨ Tap here to blow out candles! ✨
+                </button>
+            </div>
+        </section>
+
+        <!-- Final Love Note Footer -->
+        <footer class="text-center py-4 space-y-2">
+            <p class="font-serif text-xl text-deepRose font-bold">
+                Happy 20th Birthday again, Palangga! 🎂✨
+            </p>
+            <p class="text-xs text-gray-500">
+                Created with all my heart for your special day • Nov 24
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- Interactive Script -->
+    <script>
+        // Automatic floating confetti on load
+        window.addEventListener('DOMContentLoaded', () => {
+            generateBackgroundHearts();
+            launchInitialConfetti();
+        });
+
+        // Launch celebratory confetti bursts
+        function launchInitialConfetti() {
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#E85A71', '#FFDAB9', '#B76E79', '#FFF0F5']
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#E85A71', '#FFDAB9', '#B76E79', '#FFF0F5']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            })();
+        }
+
+        // On-demand confetti burst button
+        function triggerConfettiBurst() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#E85A71', '#FFDAB9', '#B76E79', '#FF69B4', '#FFA07A']
+            });
+        }
+
+        // Generate background floating hearts
+        function generateBackgroundHearts() {
+            const container = document.getElementById('heartContainer');
+            const count = 12;
+            for (let i = 0; i < count; i++) {
+                const li = document.createElement('li');
+                li.classList.add('floating-heart');
+                li.style.left = Math.random() * 100 + '%';
+                li.style.animationDelay = (Math.random() * 15) + 's';
+                li.style.animationDuration = (15 + Math.random() * 15) + 's';
+                const size = 12 + Math.random() * 18;
+                li.style.width = size + 'px';
+                li.style.height = size + 'px';
+                container.appendChild(li);
+            }
+        }
+
+        // Memory Flip Cards
+        function toggleFlip(card) {
+            card.classList.toggle('flipped');
+        }
+
+        // Smooth Scroll to Birthday Cake section
+        function scrollToCake() {
+            document.getElementById('cakeSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Candle blowing interaction state
+        let candlesBlown = false;
+
+        function blowOutCandles() {
+            if (candlesBlown) return;
+
+            const flame1 = document.getElementById('flame1');
+            const flame2 = document.getElementById('flame2');
+            const wishBox = document.getElementById('wishBox');
+
+            // Hide flames with smooth fade out effect
+            flame1.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            flame2.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            
+            flame1.style.opacity = '0';
+            flame1.style.transform = 'scale(0)';
+            flame2.style.opacity = '0';
+            flame2.style.transform = 'scale(0)';
+
+            candlesBlown = true;
+
+            // Trigger grand confetti burst
+            confetti({
+                particleCount: 150,
+                spread: 100,
+                origin: { y: 0.7 },
+                colors: ['#E85A71', '#FFDAB9', '#FF69B4', '#FFD700']
+            });
+
+            // Update wish box content
+            wishBox.innerHTML = `
+                <div class="bg-rose-50 text-deepRose border border-rose-200 p-3 rounded-2xl text-xs sm:text-sm font-semibold animate-bounce shadow-sm">
+                    ✨ Your birthday wish has been sent to the stars! May all your dreams come true, Palangga! 🌟💖
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
